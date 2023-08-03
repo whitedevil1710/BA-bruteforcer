@@ -14,7 +14,7 @@ cd BA-bruteforcer
 2. Install the required dependencies (termcolor and requests):
 
 ```bash
-pip install termcolor requests
+pip install termcolor requests tabulate
 ```
 3. Run the script:
 
