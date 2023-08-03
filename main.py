@@ -7,6 +7,7 @@ import cmd
 import sys
 from termcolor import colored
 import os
+from tabulate import tabulate
 
 class Mycmd(cmd.Cmd):
     prompt = colored(">>>>", "green")
@@ -33,7 +34,8 @@ ______  ______      _____        ______  ______  ___________    ______   _____  
         self.targetUrl = ""
         self.userNameList = []
         self.passWordList = []
-        self.filename = ""
+        self.Ufilename = ""
+        self.Pfilename = ""
 
     def help_run(self, line):
         print("run - Run the brute-force attack")
@@ -125,7 +127,7 @@ ______  ______      _____        ______  ______  ___________    ______   _____  
     def do_setuname(self, line):
         filename = line.strip()
         if os.path.exists(filename):
-            self.filename = filename
+            self.Ufilename = filename
             with open(filename, "r") as f:
                 print(colored(f"[+] Reading file: {filename}", "green"))
                 lines = [line.rstrip('\n') for line in f]
@@ -133,7 +135,14 @@ ______  ______      _____        ______  ______  ___________    ______   _____  
         else:
             self.userNameList.clear()
             self.userNameList.append(line)
-        print(self.userNameList)
+
+    def do_options(self,args):
+        table = [ 
+         ['URL', self.targetUrl], 
+         ['Username',self.Ufilename], 
+         ['Password', self.Pfilename]
+         ]
+        print(colored(tabulate(table,["Options","Parameter"]),"green"))
 
     def do_seturl(self, line):
         URL = line.strip()
@@ -149,7 +158,7 @@ ______  ______      _____        ______  ______  ___________    ______   _____  
     def do_setpass(self, line):
         filename = line.strip()
         if os.path.exists(filename):
-            self.filename = filename
+            self.Pfilename = filename
             with open(filename, "r") as f:
                 print(colored(f"[+] Reading file: {filename}", "green"))
                 lines = [line.rstrip('\n') for line in f]
